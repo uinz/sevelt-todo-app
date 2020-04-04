@@ -1,5 +1,7 @@
 <script>
   import { onMount } from "svelte";
+  import { fade } from "svelte/transition";
+  import { flip } from "svelte/animate";
   import TodoItem from "./todo-item.svelte";
 
   let mounted = false;
@@ -89,13 +91,17 @@
       checked={allCompleted} />
     <label for="toggle-all">Mark all as complete</label>
 
-    <ul class="todo-list">
-      {#each filtered as item}
-        <TodoItem
-          id={item.id}
-          on:remove={remove}
-          bind:desc={item.desc}
-          bind:completed={item.completed} />
+    <ul
+      class="todo-list"
+      style="transition:0.6s;height: {filtered.length * 58}px">
+      {#each filtered as item (item.id)}
+        <div animate:flip in:fade>
+          <TodoItem
+            id={item.id}
+            on:remove={remove}
+            bind:desc={item.desc}
+            bind:completed={item.completed} />
+        </div>
       {/each}
     </ul>
 
