@@ -55,11 +55,13 @@
 
   onMount(() => {
     mounted = true;
-    const cache = JSON.parse(window.localStorage.getItem("todos"));
-    if (Array.isArray(cache)) {
-      console.log(cache);
-
-      todos = cache;
+    try {
+      const cache = JSON.parse(window.localStorage.getItem("todos"));
+      if (Array.isArray(cache)) {
+        todos = cache;
+      }
+    } catch {
+      todos = [];
     }
 
     window.addEventListener("hashchange", update);
